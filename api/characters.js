@@ -1,7 +1,8 @@
-const url = 'https://swapi.co/api/people'
+const defaultUrl = 'https://swapi.co/api/people'
 export default {
-  getCharacters: () => {
-    return fetch(`${url}`).then(function(response) {
+  getCharacters: url => {
+    const fetchUrl = url ? url : defaultUrl
+    return fetch(`${fetchUrl}`).then(function(response) {
       return response.json()
     })
   }

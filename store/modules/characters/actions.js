@@ -2,10 +2,11 @@ import * as types from './mutationTypes'
 import charactersApi from '../../../api/characters'
 import giphyApi from '../../../api/giphy'
 
-async function getCharacters({ commit }) {
-  const response = await charactersApi.getCharacters()
+async function getCharacters({ commit, url = '' }, data = {}) {
+  console.log('getCharacters')
+  // const { url } = data
+  const response = await charactersApi.getCharacters(data.url)
   const characters = response.results
-  console.log('get charactres!!!', characters)
   const updatedCharacters = await Promise.all(
     characters.map(async item => {
       const images = await giphyApi.getImages(item.name)
@@ -14,7 +15,7 @@ async function getCharacters({ commit }) {
       return updatedItem
     })
   )
-  commit(types.SET_DATA, updatedCharacters)
+  commit(types.SET_DATA, { ...response, results: updatedCharacters })
 }
 
 export default { getCharacters }

@@ -29,6 +29,27 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-list>
+      <v-btn
+        :disabled="!previous"
+        color="pink"
+        dark
+        small        
+        bottom
+        left
+        fab>
+        <v-icon>chevron_left</v-icon>
+      </v-btn>
+      <v-btn
+        :disabled="!next"        
+        color="pink"
+        dark
+        small
+        bottom
+        left
+        fab
+        @click="loadNext">
+        <v-icon>chevron_right</v-icon>
+      </v-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -46,7 +67,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'characters/getCharacters'
+      items: 'characters/getCharacters',
+      next: 'characters/getNext',
+      previous: 'characters/getPrevious'
     })
   },
   beforeMount() {
@@ -56,7 +79,11 @@ export default {
   methods: {
     ...mapActions({
       fetchCharacters: 'characters/getCharacters'
-    })
+    }),
+    loadNext: function() {
+      console.log('neeeext', this.next)
+      this.fetchCharacters({ url: this.next })
+    }
   }
 }
 </script>
