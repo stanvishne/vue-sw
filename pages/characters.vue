@@ -24,7 +24,9 @@
             </div>
             
             <v-card>
-              <character-info :item="item" />
+              <character-info
+                :item="item"
+                :planets="planets"/>
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -36,7 +38,8 @@
         small        
         bottom
         left
-        fab>
+        fab
+        @click="loadPrevious">
         <v-icon>chevron_left</v-icon>
       </v-btn>
       <v-btn
@@ -69,7 +72,8 @@ export default {
     ...mapGetters({
       items: 'characters/getCharacters',
       next: 'characters/getNext',
-      previous: 'characters/getPrevious'
+      previous: 'characters/getPrevious',
+      planets: 'planets/getPlanets'
     })
   },
   beforeMount() {
@@ -81,8 +85,10 @@ export default {
       fetchCharacters: 'characters/getCharacters'
     }),
     loadNext: function() {
-      console.log('neeeext', this.next)
       this.fetchCharacters({ url: this.next })
+    },
+    loadPrevious: function() {
+      this.fetchCharacters({ url: this.previous })
     }
   }
 }
